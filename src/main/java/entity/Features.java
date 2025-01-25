@@ -1,5 +1,7 @@
 package entity;
 
+import static java.util.Objects.isNull;
+
 public enum Features {
 
     TRAILERS("Trailers"),
@@ -12,5 +14,24 @@ public enum Features {
 
     Features(String value) {
         this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public static Features getFeatureBYValue(String value) {
+        if(isNull(value) || value.isEmpty()){
+            return null;
+        }
+
+        Features[] feature = Features.values();
+        for (Features feature : feature) {
+            if(feature.value.equals(value)){
+                return feature;
+            }
+        }
+        return null;
+
     }
 }
