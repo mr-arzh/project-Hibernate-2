@@ -4,10 +4,13 @@ package entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -20,37 +23,49 @@ import java.util.HashSet;
 public class Film {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "film_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Short film_id;
 
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
+    @Column(columnDefinition = "text")
+    @Type(type = "text")
     private String description;
 
-    @Column(name = "year")
-    private Integer year;
+    @Column(name = "release_year")
+    private Integer releaseYear;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
+
+    @ManyToOne
+    @JoinColumn(name = "original_language_id")
+    private Language originalLanguage;
 
     @Column(name = "rental_duration")
-    private Integer rental_duration;
+    private Byte rentalDuration;
 
     @Column(name = "rental_rate")
-    private Double rental_rate;
+    private BigDecimal rental_rate;
 
     @Column(name = "length")
-    private Integer length;
+    private Byte length;
 
     @Column(name = "replacement_cost")
-    private Double replacement_cost;
+    private BigDecimal replacementCost;
 
-    @Enumerated(EnumType.ORDINAL)
-    public Enum rating;
+    //@Enumerated(EnumType.ORDINAL)
+    @Column(columnDefinition = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
+    public Rating rating;
 
-    @Column(name = "special_features")
-    private HashSet<String> special_features;
+    @Column(name = "special_features", columnDefinition = "set('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')")
+    private String specialFeatures;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_update")
-    private Date last_update;
+    @UpdateTimestamp
+    private LocalDateTime lastUpdate;
 }
