@@ -26,9 +26,9 @@ public enum Features {
         }
 
         Features[] feature = Features.values();
-        for (Features feature : feature) {
-            if(feature.value.equals(value)){
-                return feature;
+        for (Features f : feature) {
+            if(f.value.equals(value)){
+                return f;
             }
         }
         return null;

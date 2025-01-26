@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ import java.util.HashSet;
 public class Film {
 
     @Id
-    @Column(name = "film_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short film_id;
 
@@ -68,4 +69,16 @@ public class Film {
     @Column(name = "last_update")
     @UpdateTimestamp
     private LocalDateTime lastUpdate;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id") )
+    private Set<Category> categories = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "film_actor",
+               joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
+               inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id") )
+    private Set<Actor> actors = new HashSet<>();
 }
