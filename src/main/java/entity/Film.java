@@ -26,7 +26,7 @@ public class Film {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Short film_id;
+    private Short id;
 
     @Column(name = "title")
     private String title;
@@ -70,7 +70,7 @@ public class Film {
     @UpdateTimestamp
     private LocalDateTime lastUpdate;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "film_category",
             joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id") )
