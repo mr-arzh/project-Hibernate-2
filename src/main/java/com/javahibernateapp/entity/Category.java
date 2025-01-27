@@ -1,4 +1,4 @@
-package entity;
+package com.javahibernateapp.entity;
 
 import org.hibernate.annotations.UpdateTimestamp;
 

@@ -1,4 +1,5 @@
-package entity;
+package com.javahibernateapp.entity;
+
 
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -12,25 +13,20 @@ import java.time.LocalDateTime;
 @Setter
 
 @Entity
-@Table(name = "city", schema = "movie")
-public class City {
+@Table(name = "country", schema = "movie")
+public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
+    @Column(name = "country_id")
     private Short id;
 
-    @Column(name = "city")
-    private String city;
-
-    @ManyToOne
-    @JoinColumn(name = "country_id")
-    private Country country;
+    @Column(name = "country")
+    private String title;
 
     @Column(name = "last_update")
     @UpdateTimestamp
     private LocalDateTime lastUpdate;
-
 
 
 }

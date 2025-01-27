@@ -1,4 +1,4 @@
-package entity;
+package com.javahibernateapp.entity;
 
 
 import jakarta.persistence.Table;

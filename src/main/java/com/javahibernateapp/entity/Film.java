@@ -1,4 +1,4 @@
-package entity;
+package com.javahibernateapp.entity;
 
 
 import jakarta.persistence.*;
@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package entity;
+package com.javahibernateapp.entity;
 
 import javax.persistence.*;
 import org.hibernate.annotations.Type;

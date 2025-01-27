@@ -1,4 +1,4 @@
-package entity;
+package com.javahibernateapp.entity;
 
 import static java.util.Objects.isNull;
 
