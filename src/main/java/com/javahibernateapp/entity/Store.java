@@ -22,7 +22,7 @@ public class Store {
     private Byte id;
 
     @OneToOne
-    @JoinColumn(name = "staff_id")
+    @JoinColumn(name = "manager_staff_id")
     private Staff staff;
 
     @OneToOne

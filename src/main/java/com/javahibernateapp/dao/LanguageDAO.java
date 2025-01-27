@@ -1,4 +1,9 @@
 package com.javahibernateapp.dao;
+import com.javahibernateapp.entity.Language;
+import org.hibernate.SessionFactory;
 
-public class LanguageDAO {
+public class LanguageDAO extends GenericDAO<Language> {
+    public LanguageDAO(SessionFactory sessionFactory) {
+        super(Language.class, sessionFactory);
+    }
 }

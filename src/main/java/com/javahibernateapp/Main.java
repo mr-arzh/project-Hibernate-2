@@ -2,10 +2,12 @@ package com.javahibernateapp;
 
 import com.javahibernateapp.dao.*;
 import com.javahibernateapp.entity.*;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 
+import java.util.List;
 import java.util.Properties;
 
 public class Main {
@@ -28,9 +30,7 @@ public class Main {
     private final StoreDAO storeDAO;
 
 
-
-
-    public Main(){
+    public Main() {
         Properties properties = new Properties();
         properties.put(Environment.DRIVER, "com.p6spy.engine.spy.P6SpyDriver");
         properties.put(Environment.URL, "jdbc:p6spy:mysql://localhost:3306/movie");
@@ -78,6 +78,44 @@ public class Main {
     public static void main(String[] args) {
 
         Main main = new Main();
+        Customer customer = main.createCustomer();
 
+
+    }
+
+    private Customer createCustomer() {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+
+            List<Store> stores = storeDAO.getItems(0, 1);
+            if (stores.isEmpty()) {
+                throw new RuntimeException("No stores found in the database");
+            }
+            Store store = stores.get(0);
+
+            List<City> cities = cityDAO.getItems(0, 1);
+            if (cities.isEmpty()) {
+                throw new RuntimeException("No cities found in the database");
+            }
+            City city = cities.get(0);
+
+            Address address = new Address();
+            address.setAddress("Cumhuriet sk 5");
+            address.setDistrict("Kartal");
+            address.setCity(city);
+            address.setPhone("777-777-111");
+            addressDAO.save(address);
+
+            Customer customer = new Customer();
+            customer.setFirstName("Dmitrii");
+            customer.setLastName("Arzh");
+            customer.setEmail("siska@gmail.com");
+            customer.setIsActive(true);
+            customer.setStore(store);
+            customerDAO.save(customer);
+
+            session.getTransaction().commit();
+            return customer;
+        }
     }
 }

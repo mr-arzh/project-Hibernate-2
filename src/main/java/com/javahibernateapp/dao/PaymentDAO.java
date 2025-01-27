@@ -1,4 +1,9 @@
 package com.javahibernateapp.dao;
+import com.javahibernateapp.entity.Payment;
+import org.hibernate.SessionFactory;
 
-public class PaymentDAO {
+public class PaymentDAO extends GenericDAO<Payment> {
+    public PaymentDAO(SessionFactory sessionFactory) {
+        super(Payment.class, sessionFactory);
+    }
 }

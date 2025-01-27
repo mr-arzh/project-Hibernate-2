@@ -1,4 +1,10 @@
 package com.javahibernateapp.dao;
+import com.javahibernateapp.entity.Country;
+import org.hibernate.SessionFactory;
 
-public class CountryDAO {
+public class CountryDAO extends GenericDAO<Country> {
+
+    public CountryDAO(SessionFactory sessionFactory) {
+        super(Country.class, sessionFactory);
+    }
 }
