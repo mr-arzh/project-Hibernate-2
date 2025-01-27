@@ -3,6 +3,8 @@ package entity;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -37,13 +39,14 @@ public class Customer {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @Column(name = "active")
-    private Byte active;
+    @Column(name = "active", columnDefinition = "BIT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private Boolean isActive;
 
 
 
     @Column(name = "create_date")
-    @UpdateTimestamp
+    @CreationTimestamp
     private LocalDateTime createDate;
 
 

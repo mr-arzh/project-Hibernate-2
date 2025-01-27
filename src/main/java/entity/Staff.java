@@ -3,10 +3,10 @@ package entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Getter
@@ -31,8 +31,9 @@ public class Staff {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @Column(name = "picture")
-    private Blob picture;
+    @Lob
+    @Column(name = "picture", columnDefinition = "BLOB")
+    private Byte[] picture;
 
     @Column(name = "email")
     private String email;
@@ -41,8 +42,9 @@ public class Staff {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @Column(name = "active")
-    private Byte active;
+    @Column(name = "active", columnDefinition = "BIT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private Boolean isActive;
 
     @Column(name = "username")
     private String username;

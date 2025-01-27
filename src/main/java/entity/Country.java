@@ -22,7 +22,7 @@ public class Country {
     private Short id;
 
     @Column(name = "country")
-    private String country;
+    private String title;
 
     @Column(name = "last_update")
     @UpdateTimestamp

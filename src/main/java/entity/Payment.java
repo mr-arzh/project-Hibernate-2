@@ -3,9 +3,11 @@ package entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -27,16 +29,16 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "staff_id")
     private Staff staff;
-//------------issue----------------
-//    @ManyToOne
-//    @JoinColumn(name = "rental_id")
-//    private Rental rental;
-//---------------------------------
+
+    @OneToOne
+    @JoinColumn(name = "rental_id")
+    private Rental rental;
+
     @Column(name = "amount")
-    private Double amount;
+    private BigDecimal amount;
 
     @Column(name = "payment_date")
-    @UpdateTimestamp
+    @CreationTimestamp
     private LocalDateTime paymentDate;
 
     @Column(name = "last_update")
