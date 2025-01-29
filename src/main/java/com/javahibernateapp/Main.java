@@ -127,6 +127,14 @@ public class Main {
             newFilm.setRentalDuration((byte) 30);
             filmDAO.save(newFilm);
 
+            FilmText filmText = new FilmText();
+            filmText.setFilm(newFilm);
+            filmText.setDescription("Lalala Khueta");
+            filmText.setTitle("Terminananator");
+            filmText.setId(newFilm.getId());
+            filmTextDAO.save(filmText);
+
+
             transaction.commit();
         }
     }
