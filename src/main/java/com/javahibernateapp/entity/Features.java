@@ -1,5 +1,8 @@
 package com.javahibernateapp.entity;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static java.util.Objects.isNull;
 
 public enum Features {
@@ -32,6 +35,6 @@ public enum Features {
             }
         }
         return null;
-
     }
+
 }

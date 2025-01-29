@@ -9,9 +9,13 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Year;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 public class Main {
 
@@ -88,11 +92,43 @@ public class Main {
 
         //main.customerReturnInventoryToStore();
 
-        main.customerRentInventory(customer);
+        //main.customerRentInventory(customer);
+
+        main.newFilmAvailableForRent();
 
 
 
 
+    }
+
+    private void newFilmAvailableForRent() {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            Language language = languageDAO.getItems(0,5).stream().unordered().findAny().get();
+            List<Category> categories = categoryDAO.getItems(0,5);
+            List<Actor> actors = actorDAO.getItems(0,5);
+
+
+            Film newFilm = new Film();
+            newFilm.setActors(new HashSet<>(actors));
+            newFilm.setLanguage(language);
+            newFilm.setCategories(new HashSet<>(categories));
+            newFilm.setDescription("Lalala Khueta");
+            newFilm.setLength((short) 30);
+            newFilm.setTitle("Terminananator");
+            newFilm.setRental_rate(BigDecimal.valueOf(25.78));
+            newFilm.setReplacementCost(BigDecimal.valueOf(33.89));
+            newFilm.setLastUpdate(LocalDateTime.now());
+            newFilm.setOriginalLanguage(language);
+            newFilm.setRating(Rating.R);
+            newFilm.setReleaseYear(Year.of(1995));
+            newFilm.setFeature(Set.of(Features.COMMENTARIES, Features.TRAILERS));
+            newFilm.setRentalDuration((byte) 30);
+            filmDAO.save(newFilm);
+
+            transaction.commit();
+        }
     }
 
     private void customerRentInventory(Customer customer) {

@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Getter
 @Setter
@@ -83,4 +86,29 @@ public class Film {
                joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
                inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id") )
     private Set<Actor> actors = new HashSet<>();
+
+    public Set<Features> getFeature() {
+        if (isNull(specialFeatures) || specialFeatures.isEmpty()) {
+            specialFeatures = null;
+        }
+        
+        Set<Features> result = new HashSet<>();
+        String[] features = specialFeatures.split(",");
+        for (String feature : features) {
+            result.add(Features.getFeatureBYValue(feature));
+        }
+        result.remove(null);
+        return result;
+    }
+
+    public void setFeature(Set<Features> features) {
+        if (isNull(features)) {
+            features = null;
+        } else {
+            features.stream().map(Features::getValue).collect(Collectors.joining(", "));
+        }
+    }
+
+
+
 }
