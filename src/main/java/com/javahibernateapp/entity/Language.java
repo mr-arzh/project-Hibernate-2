@@ -26,8 +26,8 @@ public class Language {
     @Column(name = "language_id")
     private Byte id;
 
-    @Column(columnDefinition = "char", name = "name")
-    @Type(type = "char")
+    @Column(columnDefinition = "CHAR(20)", name = "name")
+    //@Type(type = "char")
     private String name;
 
     @Column(name = "last_update")

@@ -1,5 +1,11 @@
 package com.javahibernateapp.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+//@Setter
+
 public enum Rating {
 
     PG("PG"),

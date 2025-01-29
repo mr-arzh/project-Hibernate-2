@@ -13,10 +13,10 @@ public class StoreDAO extends GenericDAO<Store> {
         super(Store.class, sessionFactory);
     }
 
-    public Store getStores(int from, int count) {
-        Query<Store> query = getCurrentSession().createNativeQuery("select * from store", Store.class);
-        query.setFirstResult(from);
-        query.setMaxResults(count);
-        return query.getResultList().stream().findFirst().orElse(null);
-    }
+//    public Store getStores(int from, int count) {
+//        Query<Store> query = getCurrentSession().createNativeQuery("select * from store", Store.class);
+//        query.setFirstResult(from);
+//        query.setMaxResults(count);
+//        return query.getResultList().stream().findFirst().orElse(null);
+//    }
 }

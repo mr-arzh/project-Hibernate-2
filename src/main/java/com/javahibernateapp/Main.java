@@ -9,6 +9,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Properties;
 
@@ -85,16 +86,68 @@ public class Main {
         Main main = new Main();
         Customer customer = main.createCustomer();
 
+        //main.customerReturnInventoryToStore();
+
+        main.customerRentInventory(customer);
+
 
 
 
     }
 
+    private void customerRentInventory(Customer customer) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            Film filmAvailableForRent = filmDAO.getFirstAvailableForRent();
+            Store availableStore = storeDAO.getItems(0,1).get(0);
+
+            Inventory inventory = new Inventory();
+            inventory.setFilm(filmAvailableForRent);
+            inventory.setStore(availableStore);
+            inventoryDAO.save(inventory);
+
+            Staff staff = availableStore.getStaff();
+
+            Rental rental = new Rental();
+            rental.setCustomer(customer);
+            rental.setStaff(staff);
+            rental.setInventory(inventory);
+            rental.setLastUpdate(LocalDateTime.now());
+            rentalDAO.save(rental);
+
+            Payment payment = new Payment();
+            payment.setCustomer(customer);
+            payment.setRental(rental);
+            payment.setStaff(staff);
+            payment.setPaymentDate(LocalDateTime.now());
+            payment.setAmount(filmAvailableForRent.getRental_rate());
+            payment.setLastUpdate(LocalDateTime.now());
+            paymentDAO.save(payment);
+
+            transaction.commit();
+        }
+    }
+
+    private void customerReturnInventoryToStore() {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            Rental unreternedRental = rentalDAO.getUnreturnedRentals();
+            unreternedRental.setReturnDate(LocalDateTime.now()); //факт того что произошел возврат
+            rentalDAO.save(unreternedRental);
+
+
+
+            transaction.commit();
+        }
+    }
+
     private Customer createCustomer() {
         try (Session session = sessionFactory.getCurrentSession()) {
-            Transaction transaction = session.getTransaction();
+            Transaction transaction = session.beginTransaction();
 
-            Store store = storeDAO.getStores(0,1);
+            Store store = storeDAO.getItems(0,1).get(0);
 
             /*List<City> cities = cityDAO.getItems(0, 1);
             if (cities.isEmpty()) {

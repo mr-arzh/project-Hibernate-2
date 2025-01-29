@@ -10,8 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,8 +35,9 @@ public class Film {
     @Type(type = "text")
     private String description;
 
-    @Column(name = "release_year")
-    private LocalDate releaseYear;
+    @Column(name = "release_year", columnDefinition = "year")
+    @Convert(converter = YearAttributeConverter.class)
+    private Year releaseYear;
 
     @ManyToOne
     @JoinColumn(name = "language_id")
@@ -60,6 +61,7 @@ public class Film {
 
     //@Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
+    @Convert(converter = RatingConverter.class)
     public Rating rating;
 
     @Column(name = "special_features", columnDefinition = "set('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')")
