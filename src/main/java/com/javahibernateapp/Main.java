@@ -4,8 +4,10 @@ import com.javahibernateapp.dao.*;
 import com.javahibernateapp.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Properties;
@@ -39,6 +41,10 @@ public class Main {
         properties.put(Environment.USER, "root");
         properties.put(Environment.PASS, "root");
         properties.put(Environment.HBM2DDL_AUTO, "validate");
+        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.format_sql", "true");
+        properties.put("hibernate.use_sql_comments", "true");
+        properties.put("hibernate.highlight_sql", "true");
         sessionFactory = new Configuration()
                 .setProperties(properties)
                 .addAnnotatedClass(Actor.class)
@@ -52,7 +58,6 @@ public class Main {
                 .addAnnotatedClass(Inventory.class)
                 .addAnnotatedClass(Language.class)
                 .addAnnotatedClass(Payment.class)
-                //.addAnnotatedClass(Rating.class)
                 .addAnnotatedClass(Rental.class)
                 .addAnnotatedClass(Staff.class)
                 .addAnnotatedClass(Store.class)
@@ -81,26 +86,26 @@ public class Main {
         Customer customer = main.createCustomer();
 
 
+
+
     }
 
     private Customer createCustomer() {
         try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
+            Transaction transaction = session.getTransaction();
 
-            List<Store> stores = storeDAO.getItems(0, 1);
-            if (stores.isEmpty()) {
-                throw new RuntimeException("No stores found in the database");
-            }
-            Store store = stores.get(0);
+            Store store = storeDAO.getStores(0,1);
 
-            List<City> cities = cityDAO.getItems(0, 1);
+            /*List<City> cities = cityDAO.getItems(0, 1);
             if (cities.isEmpty()) {
                 throw new RuntimeException("No cities found in the database");
             }
-            City city = cities.get(0);
+            City city = cities.get(0);*/
+
+            City city = cityDAO.getName("Jakarta");
 
             Address address = new Address();
-            address.setAddress("Cumhuriet sk 5");
+            address.setAddress("Cumhuriet sk, 5");
             address.setDistrict("Kartal");
             address.setCity(city);
             address.setPhone("777-777-111");
@@ -112,9 +117,10 @@ public class Main {
             customer.setEmail("siska@gmail.com");
             customer.setIsActive(true);
             customer.setStore(store);
+            customer.setAddress(address);
             customerDAO.save(customer);
 
-            session.getTransaction().commit();
+            transaction.commit();
             return customer;
         }
     }

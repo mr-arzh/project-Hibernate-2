@@ -3,11 +3,12 @@ package com.javahibernateapp.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class Actor {
 
     @Column(name = "last_update")
     @UpdateTimestamp
-    private LocalDate lastUpdate;
+    private LocalDateTime lastUpdate;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "film_actor",

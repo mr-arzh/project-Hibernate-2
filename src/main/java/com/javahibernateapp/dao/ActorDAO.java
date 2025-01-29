@@ -1,5 +1,6 @@
 package com.javahibernateapp.dao;
 
+
 import com.javahibernateapp.entity.Actor;
 import org.hibernate.SessionFactory;
 

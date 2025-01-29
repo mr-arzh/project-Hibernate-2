@@ -7,9 +7,10 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,7 @@ import java.util.Set;
 public class Film {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "film_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
 
@@ -35,7 +36,7 @@ public class Film {
     private String description;
 
     @Column(name = "release_year")
-    private Integer releaseYear;
+    private LocalDate releaseYear;
 
     @ManyToOne
     @JoinColumn(name = "language_id")
@@ -52,7 +53,7 @@ public class Film {
     private BigDecimal rental_rate;
 
     @Column(name = "length")
-    private Byte length;
+    private Short length;
 
     @Column(name = "replacement_cost")
     private BigDecimal replacementCost;

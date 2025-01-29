@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,11 +17,11 @@ public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
+    @Column(name = "city_id")
     private Short id;
 
     @Column(name = "city")
-    private String city;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "country_id")

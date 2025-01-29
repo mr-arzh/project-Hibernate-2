@@ -1,6 +1,6 @@
 package com.javahibernateapp.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -35,7 +35,7 @@ public class Customer {
     private String email;
 
     @OneToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
     @Column(name = "active", columnDefinition = "BIT")
